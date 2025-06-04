@@ -2,56 +2,63 @@ import os
 os.system("cls")
 import biblioteca as _b
 
+notificacao = True
+
+# Menu de escolha
 escolha = 1
 while escolha != 0:
     #Página inicial com menu
     os.system("cls")
     print(
 """
-========================= Global solution =========================
-Bem Vindo bdsafaefeafdsafsadfdafsadfasdfafdasfdsafdsafdfafdasfsdafa
-fdsafdsafadsfdsafsdaffafdafdsafadfafasdfdsafafasddescricaomuitofoda
+========================== Global solution ==========================
+                    Bem-vindo ao Scanner CEN! 
+
+Fique sabendo que qualquer perigo local, basta informar 
+sua cidade e bairro ou cadastre-se para uma experiencia mais prática.
+
+*Recomendado tela cheia para visualizar melhor o programa.
 
 0 - SAIR
 1 - Fazer login  
-2 - Scanner(escaneie sua area para possiveis desastres)
-3 - Serviços de emergencia 
+2 - Scanner(escaneie sua area para possiveis desastres)""")
 
-********************** 2 novas notificações **********************
-5 - Notificações
-""")
+    # Checar se as notificações foram lidas ou não
+    if notificacao == True:
+        print("""
+*********************** 2 novas notificações ***********************""")
+        
+    print("3 - Notificações\n")
 
-    escolha = int(input("Escolha: "))
-
-    #Decisões
+    escolha = input("Escolha: ")
+    # Decisões
     match escolha:
-        case 0:
+        # Sair
+        case "0":
             os.system("cls")
             print("Obrigado por utilizar o nosso programa!\n")
             break
-        case 1:
-            #Login
-            break
-        case 2:
+
+        # Fazer login
+        case "1":
             os.system("cls")
-            print("============================= Scanner =============================")
-            print("Já possui login? Login é completamente opcional porém você não será")
-            print("necessario colocar manualmente seu endereço.\n")
-            print("1 - Com login")
-            print("2 - Sem login\n")
+            _b.criar_usuario()
 
-            opcao = input("Escolha: ")
-            if opcao == "1":
-                print("")
+        # Scanner
+        case "2":
+            os.system("cls")
+            _b.scanner_menu()
 
-            elif opcao == "2":
-                os.system("cls")
-                _b.aviso(cidade = input("\nDigite sua cidade: "), regiao = input(f"\nEm qual região você mora? "))
-                
+        # Notificação
+        case "3":
+            os.system("cls")
+            notificacao = False
+            _b.notificação()
 
+        # Nenhuma das opções
         case _:
             os.system("cls")
-            print("Opção com este número não existe, tente novamente.")
+            print("Opção selecionada não existe, tente novamente.")
                 
                 
-    input("\nPressione qualquer enter para continuar...")
+    input("\nPressione enter para continuar...")
