@@ -1,6 +1,7 @@
 import random 
 import os
 
+logado = False
 # e-mail, senha
 usuario = []
 
@@ -8,26 +9,33 @@ usuario = []
 def criar_usuario(email: str = "", senha: str = "", cidade: str = "", regiao: str = "") -> None:
 
     print("============================= Menu login ============================")
-    # Recebe as Variáveis email, senha, cidade e região
+    # Pergunta o E-mail até que seja digitado algo
     while email == "":
         email = input("E-mail: ")
+        # Caso não tenha digitado nada
         if email == "":
             os.system("cls")
             print("Digite seu E-mail\n")
 
+    # Pergunta a senha até que seja digitado algo
     while senha == "":
         senha = input("Senha: ")
+        # Caso não tenha digitado nada
         if senha == "":
             os.system("cls")
             print("Digite uma senha")
             
+    # Pergunta a cidade até que seja digitado algo
     while cidade == "":
         cidade = input("Cidade: ")
+        # Caso não tenha digitado nada
         if cidade == "":
             os.system("cls")
             print("Digite a sua cidade")
+    # Pergunta a regiao até que seja digitado algo
     while regiao == "":
         regiao = input("Região: ")
+        # Caso não tenha digitado nada
         if regiao == "":
             os.system("cls")
             print("Digite a sua região")
@@ -37,7 +45,7 @@ def criar_usuario(email: str = "", senha: str = "", cidade: str = "", regiao: st
     print("\nUsuário criado com sucesso!\n")
 
 # função que recebe duas strings e gera aleatóriamente 3 mensagens diferentes 
-def aviso(cidade: str, regiao: str) -> str:
+def aviso(cidade: str, regiao: str) -> None:
 
     aviso = random.randint(1,3)
     match aviso:
@@ -50,25 +58,31 @@ def aviso(cidade: str, regiao: str) -> str:
 
     print(f"\nEm {cidade} na {regiao} {msg}")
 
-# checar se o e-mail e senha são iguais a lista, se forem, função aviso será aplicada
-def login():
+# Verifica se o e-mail e senha são iguais a lista, se forem, função aviso será aplicada
+def login() -> None:
+
+    # Vê se o usuário já logou antes
+    global logado
     email = input("\nE-mail: ")
     senha = input("Senha: ")
 
-    # Checa se o E-mail foi cadastrado
+    # Verifica se o E-mail foi cadastrado
     for u in usuario:
         if u["email"] != email:
-            print("\nEste E-mail não foi cadastrado ainda...")
-    # Checa se a senha está correta
+            print("\nE-mail não encontrado...")
+    # Verifica se a senha está correta
         elif u["senha"] != senha:
             print("\nSenha incorreta...")
     # Aplica função aviso()
         elif u["email"] == email and u["senha"] == senha:
             aviso(cidade = u["cidade"], regiao = u["regiao"])
+            logado = True
 
 # Menu para o scanner
-def scanner_menu():
+def scanner_menu() -> None:
     os.system("cls")
+
+    global logado
     print("""
 ============================== Scanner ==============================
 Já possui login? Login é completamente opcional porém você não será
@@ -85,8 +99,12 @@ necessario colocar manualmente seu endereço.
         case "0":
             return
         case "1":
-        # Aplica a função login()
-            login()
+        # Aplica a função login, caso já esteja logado, função aviso será aplicada diretamente
+            for u in usuario:
+                if logado == False:
+                    login()
+                else:
+                    aviso(cidade = u["cidade"], regiao = u["regiao"])
         # Recebe duas variáveis e a plica a função aviso()
         case "2":
             cidade = ""
@@ -110,7 +128,7 @@ necessario colocar manualmente seu endereço.
             print("Opção selecionada não existe, tente novamente.")
 
 # Menu notificação
-def notificação() :
+def notificação() -> None :
     print("""
 ****************************Atenção*********************************
 1 - Fim da frente fria: temperaturas voltam a subir na região neste 
@@ -118,4 +136,3 @@ final de semana; veja a previsão no site da "G1"
           
 2 - Alagamento reportado na Zona Oeste desde 12:15 
 """)
-    return
